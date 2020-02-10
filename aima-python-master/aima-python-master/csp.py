@@ -8,7 +8,9 @@ from collections import defaultdict, Counter
 from functools import reduce
 from operator import eq, neg
 
-from sortedcontainers import SortedSet
+from SortedSet.sorted_set import SortedSet
+# changed to match downloaded file
+# from sortedcontainers import SortedSet
 
 import search
 from utils import argmin_random_tie, count, first, extend
