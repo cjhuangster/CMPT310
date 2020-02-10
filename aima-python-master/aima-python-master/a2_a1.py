@@ -1,5 +1,6 @@
 import csp
 import random
+
 # Tested, Trued
 
 def rand_graph(n, p):
