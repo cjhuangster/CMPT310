@@ -34,11 +34,12 @@ def constraints (A, a, B, b):
     
 Icebreaker = CSP(ibvariables, ibdomains, ibneighbors, constraints)
 
-print("friendList:", friendList )
-print("ibdomains: ", ibdomains)
+# print("friendList:", friendList )
+# print("ibdomains: ", ibdomains)
+# make_arc_consistent does not work without calling AC3 for whatever reason
 print("AC3: ", AC3(Icebreaker))
-print("min_conflicts: ", min_conflicts(Icebreaker))
-print(backtracking_search(Icebreaker))
+# print("min_conflicts: ", min_conflicts(Icebreaker))
+# print(backtracking_search(Icebreaker))
 # for i in domKeys:
 #     print(MapColoringCSP(i, ibneighbors))
 newDomains = {}
