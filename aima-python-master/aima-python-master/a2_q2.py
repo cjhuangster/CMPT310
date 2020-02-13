@@ -1,4 +1,5 @@
-import a2_a1
+import csp
+import a2_q1
 
 def check_teams(graph, csp_sol):
 #since solution in sets of (individual#:team#)
