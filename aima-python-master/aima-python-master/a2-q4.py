@@ -4,11 +4,10 @@ from a2_q2 import*
 import xlsxwriter
 import time
 
-run_q3
-def run_q3():
-    workbook = xlsxwriter.Workbook('a2_q3.xlsx')
+def run_q4():
+    workbook = xlsxwriter.Workbook('a2_q4.xlsx')
     worksheet = workbook.add_worksheet()
-    labels = ["probability", "#teams", "run time", "#assign", "#unassign", "fun fact: team assignments"]
+    labels = ["probability", "#teams", "run time", "#assign", "#unassign", "team assignments"]
     row = 0
     column = 0
     for item in labels:
@@ -26,8 +25,8 @@ def run_q3():
                 return True
 
     for x in range (5):
-        graphs = [rand_graph(30, 0.1), rand_graph(30, 0.2), rand_graph(30, 0.3),
-            rand_graph(30, 0.4), rand_graph(30, 0.5)]
+        graphs = [rand_graph(100, 0.1), rand_graph(100, 0.2), rand_graph(100, 0.3),
+            rand_graph(100, 0.4), rand_graph(100, 0.5)]
         # friendList = rand_graph(100,0.2)
         for y in range(len(graphs)): 
             startTime = time.time()
@@ -56,12 +55,11 @@ def run_q3():
             numAssign = Icebreaker.nassigns
             numUnassign = Icebreaker.nassigns-len(ibvariables)
             calcTime = endTime - startTime
-            #  "to be honest I don't even know whats happening here"
             content = [y*0.1+0.1, teamNum, calcTime, numAssign, numUnassign, str(teams)]
             row = x*5+y+1
             column = 0
             for item in content:
                 worksheet.write(row,column,item)
                 column+=1
-
     workbook.close()  
+run_q4()
