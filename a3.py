@@ -112,12 +112,14 @@ class pMCTS:
             return score
         if len(playOut.availableMoves(board))==0:
             return score
-        
+        searchedList = []
+        unsearchedList = copy.deepcopy(copyAvailableMoves)
         for i in range(numPlayOut):
             # how to avoid passing by reference of OG availableMoves?
             # deep copy a copy of available, pop the move made in current iteration, pass to next
             aMove = random.choice(playOut.copyAvailableMove)
-
+            searchedList.append(aMove)
+            unsearchedList.remove(aMove)
             score += randomPlayOut(numPlayOut, board, nextXorO, AILetter, playerLetter)
               
 newGame = ticTacToe()
