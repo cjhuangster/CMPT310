@@ -96,26 +96,28 @@ class pMCTS:
         self.numPlayOut = numPlayOut
         self.numWins = []
     
-    def randomPlayOut(self, numPlayOut, board, XorO, AILetter, playerLetter):
+    def randomPlayOut(self, numPlayOut, copyAvailableMoves, board, XorO, AILetter, playerLetter, score):
         playOut = ticTacToe(board)
         nextXorO = ''
-        score = 0
+        if XorO == 'X':
+            nextXorO == 'O'
+        else:
+            nextXorO == 'X'
+        # check win condition
         if playOut.checkWin (playerLetter, board):
-            return -1
+            score-=1
+            return score
         if playOut.checkWin (AILetter, board):
-            return +1
+            score+=1
+            return score
         if len(playOut.availableMoves(board))==0:
-            return 0
+            return score
         
-        copyAvailableMove = playOut.availableMoves(board)
         for i in range(numPlayOut):
             # how to avoid passing by reference of OG availableMoves?
             # deep copy a copy of available, pop the move made in current iteration, pass to next
             aMove = random.choice(playOut.copyAvailableMove)
-            if XorO == 'X':
-                nextXorO == 'O'
-            else:
-                nextXorO == 'X'
+
             score += randomPlayOut(numPlayOut, board, nextXorO, AILetter, playerLetter)
               
 newGame = ticTacToe()
