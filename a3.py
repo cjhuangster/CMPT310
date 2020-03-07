@@ -1,9 +1,10 @@
 import random   
+import copy
 
 # draws out physical representation of game
 class ticTacToe:
-    def __init__(self):
-        self.board = ['X',1,2,3,4,5,6,7,8,9]
+    def __init__(self, board):
+        self.board = board
         
     def drawBoard(self, board):
         print()
@@ -61,48 +62,58 @@ class ticTacToe:
         return availableSpace
 
     def aGame(self):
-        board = ['X',1,2,3,4,5,6,7,8,9]
         count = 0
+        numPlayOut = 3
         while True:
-                aMove = random.choice(self.availableMoves(board))
-                # print(aMove)
-                self.move(board, 'X', aMove)
-                self.drawBoard(board)
-                count+=1
-                print("count: ", count)
-                if self.checkWin ('X', board):
-                    print('X won')
-                    break
-                
-                if len(self.availableMoves(board))==0:
-                    print('No one won')
-                    break
-                
-                aMove = random.choice(self.availableMoves(board))
-                self.move(board, 'O', aMove)
-                self.drawBoard(board)
-                count+=1
-                print("count: ", count)
-                
-                if self.checkWin ('O', board):
-                    print ('O won')
-                
-                if len(self.availableMoves(board))==0:
-                    print('No one won')
-                    break
+            # playerA move
+            # aMove = random.choice(self.availableMoves(board))
+            newChoice = pMCTS('X', numPlayOut, board)
+            aMove = newChoice.moveChoice(numPlayOut, board, 'X', self.availableMoves(board), 'X', 'O')
+            # print(aMove)
+            self.move(board, 'X', aMove)
+            self.drawBoard(board)
+            count+=1
+            print("count: ", count)
+            
+            if self.checkWin ('X', board):
+                print('X won')
+                break
+            
+            if len(self.availableMoves(board))==0:
+                print('No one won')
+                break
+            
+            # playerB move
+            newChoice = pMCTS('O', numPlayOut, board)
+            aMove = newChoice.moveChoice(numPlayOut, board, 'O', self.availableMoves(board), 'X', 'O')
+            # aMove = random.choice(self.availableMoves(board))
+            self.move(board, 'O', aMove)
+            self.drawBoard(board)
+            count+=1
+            print("count: ", count)
+            
+            if self.checkWin ('O', board):
+                print ('O won')
+            
+            if len(self.availableMoves(board))==0:
+                print('No one won')
+                break
 # recursively playout game
 class pMCTS:
-    def __init__(self, XorO, move, numPlayOut):
+    def __init__(self, XorO, numPlayOut, board):
+        self.XorO = XorO
         self.numPlayOut = numPlayOut
         self.numWins = []
+        self.board = board
     
-    def randomPlayOut(self, numPlayOut, copyAvailableMoves, board, XorO, AILetter, playerLetter, score):
+    def randomPlayOut(self, numPlayOut, availableMoves, board, XorO, AILetter, playerLetter, score):
         playOut = ticTacToe(board)
         nextXorO = ''
         if XorO == 'X':
             nextXorO == 'O'
         else:
             nextXorO == 'X'
+            
         # check win condition
         if playOut.checkWin (playerLetter, board):
             score-=1
@@ -113,14 +124,27 @@ class pMCTS:
         if len(playOut.availableMoves(board))==0:
             return score
         searchedList = []
-        unsearchedList = copy.deepcopy(copyAvailableMoves)
+        unsearchedList = copy.deepcopy(availableMoves)
+        
         for i in range(numPlayOut):
-            # how to avoid passing by reference of OG availableMoves?
-            # deep copy a copy of available, pop the move made in current iteration, pass to next
-            aMove = random.choice(playOut.copyAvailableMove)
+            copyAvailableMoves = copy.deepcopy(availableMoves)  
+            aMove = random.choice(unsearchedList)
+            ticTacToe.move(self,board,XorO,aMove)
             searchedList.append(aMove)
             unsearchedList.remove(aMove)
-            score += randomPlayOut(numPlayOut, board, nextXorO, AILetter, playerLetter)
-              
-newGame = ticTacToe()
+            score += self.randomPlayOut(numPlayOut, copyAvailableMoves, board, nextXorO, AILetter, playerLetter, score)
+    
+    def moveChoice (self, numPlayOut, board, XorO, availableMoves, AILetter, playerLetter):
+        playOutResults = {}
+        unSearchedList = copy.deepcopy(availableMoves)
+        copyAvailableMoves = copy.deepcopy(availableMoves)
+        for i in range (numPlayOut):
+            aMove = random.choice(unSearchedList)
+            unSearchedList.remove(aMove)
+            playOutResults.update(pMCTS.randomPlayOut(self,numPlayOut, copyAvailableMoves, board, XorO, AILetter, playerLetter, 0), aMove)
+            maxScore = max(playOutResults.keys())
+            return playOutResults.get(maxScore)
+            
+board = ['X',1,2,3,4,5,6,7,8,9]
+newGame = ticTacToe(board)
 newGame.aGame()
