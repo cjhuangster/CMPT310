@@ -1,0 +1,1 @@
+The rules are made up to reflect my personal opinion on terminator as well as the steps leading up to its creation, pretty self explanatory and also to be considered a meme. This can be used as a reminder of what not to do to avoid having terminators

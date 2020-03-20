@@ -1,0 +1,6 @@
+alive <-- air & water & food
+knowledge <-- learning & time
+programmer <-- knowledge & alive & computer
+program <-- programmer & coffee
+AI <-- program & somethingElse
+terminators <-- AI & noControl
